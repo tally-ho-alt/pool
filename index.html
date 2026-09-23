@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>友沼小プールカード</title>
+
+<style>
+:root {
+    color-scheme: light;
+
+    --bg: #eef9ff;
+    --bg-grad-top: #b9edff;
+    --bg-grad-mid: #eafaff;
+    --bg-grad-bottom: #ffffff;
+    --text: #333333;
+    --accent: #087fa8;
+    --accent-strong: #086d91;
+    --card-bg: #ffffff;
+    --card-shadow: rgba(0,0,0,0.08);
+    --info-bg: #f1fbff;
+    --pool-info-bg: #dff6ff;
+    --deadline: #e06c00;
+    --border: #cbdde4;
+    --border-focus: #45afd0;
+    --btn-primary: #19a6cf;
+    --btn-green: #43b96b;
+    --btn-orange: #ff9f43;
+    --btn-orange-shadow: #dc7c20;
+    --btn-gray-bg: #e5e5e5;
+    --btn-gray-text: #444444;
+    --btn-danger: #e66a6a;
+    --child-select-bg: #f3fbff;
+    --child-select-border: #b9e3f0;
+    --delete-bg: #f3dddd;
+    --delete-text: #b33b3b;
+    --error: #d33333;
+    --small-note: #777777;
+    --history-bg: #f8fcff;
+    --history-border: #d8eef7;
+    --badge-bg: #ffe0b2;
+    --badge-text: #a15c00;
+    --badge-warn-bg: #ffd3d3;
+    --badge-warn-text: #a11212;
+    --table-border: #dddddd;
+    --table-label: #666666;
+    --disabled-bg: #eeeeee;
+    --disabled-border: #cccccc;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        color-scheme: dark;
+
+        --bg: #0b1a22;
+        --bg-grad-top: #123544;
+        --bg-grad-mid: #0e2731;
+        --bg-grad-bottom: #0b1a22;
+        --text: #e8f4fa;
+        --accent: #6fd6ff;
+        --accent-strong: #9fe6ff;
+        --card-bg: #12262f;
+        --card-shadow: rgba(0,0,0,0.45);
+        --info-bg: #16303b;
+        --pool-info-bg: #123544;
+        --deadline: #ffb15c;
+        --border: #2b4552;
+        --border-focus: #6fd6ff;
+        --btn-primary: #1f8fb8;
+        --btn-green: #2f9e59;
+        --btn-orange: #e08a35;
+        --btn-orange-shadow: #a35c1c;
+        --btn-gray-bg: #26414c;
+        --btn-gray-text: #cfe7ef;
+        --btn-danger: #c85656;
+        --child-select-bg: #143240;
+        --child-select-border: #2c5468;
+        --delete-bg: #3a2626;
+        --delete-text: #e08585;
+        --error: #ff7a7a;
+        --small-note: #9db3bc;
+        --history-bg: #10242c;
+        --history-border: #234656;
+        --badge-bg: #4a3417;
+        --badge-text: #ffcf8a;
+        --badge-warn-bg: #4a1f1f;
+        --badge-warn-text: #ffb3b3;
+        --table-border: #29444f;
+        --table-label: #9db3bc;
+        --disabled-bg: #1b2f38;
+        --disabled-border: #33505c;
+    }
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --bg: #0b1a22;
+    --bg-grad-top: #123544;
+    --bg-grad-mid: #0e2731;
+    --bg-grad-bottom: #0b1a22;
+    --text: #e8f4fa;
+    --accent: #6fd6ff;
+    --accent-strong: #9fe6ff;
+    --card-bg: #12262f;
+    --card-shadow: rgba(0,0,0,0.45);
+    --info-bg: #16303b;
+    --pool-info-bg: #123544;
+    --deadline: #ffb15c;
+    --border: #2b4552;
+    --border-focus: #6fd6ff;
+    --btn-primary: #1f8fb8;
+    --btn-green: #2f9e59;
+    --btn-orange: #e08a35;
+    --btn-orange-shadow: #a35c1c;
+    --btn-gray-bg: #26414c;
+    --btn-gray-text: #cfe7ef;
+    --btn-danger: #c85656;
+    --child-select-bg: #143240;
+    --child-select-border: #2c5468;
+    --delete-bg: #3a2626;
+    --delete-text: #e08585;
+    --error: #ff7a7a;
+    --small-note: #9db3bc;
+    --history-bg: #10242c;
+    --history-border: #234656;
+    --badge-bg: #4a3417;
+    --badge-text: #ffcf8a;
+    --badge-warn-bg: #4a1f1f;
+    --badge-warn-text: #ffb3b3;
+    --table-border: #29444f;
+    --table-label: #9db3bc;
+    --disabled-bg: #1b2f38;
+    --disabled-border: #33505c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "メイリオ", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px 16px 40px;
+}
+
+.screen.active {
+    display: block;
+}
+
+.container {
+    width: 100%;
+    max-width: 620px;
+    margin: 0 auto;
+}
+
+#screen-start {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: linear-gradient(180deg, var(--bg-grad-top) 0%, var(--bg-grad-mid) 65%, var(--bg-grad-bottom) 100%);
+}
+
+.start-inner {
+    width: 100%;
+    max-width: 600px;
+}
+
+.pool-icon {
+    font-size: 70px;
+    line-height: 1;
+    margin-bottom: 12px;
+}
+
+.start-subtitle {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 8px;
+}
+
+.main-title {
+    margin: 0;
+    font-size: clamp(32px, 9vw, 58px);
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+}
+
+.hidden-word {
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-weight: inherit;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+}
+
+.start-message {
+    margin: 22px 0 25px;
+    font-size: 17px;
+    line-height: 1.8;
+    font-weight: bold;
+    color: var(--text);
+    opacity: 0.85;
+}
+
+.start-button {
+    width: min(82%, 360px);
+    padding: 17px 20px;
+    border: none;
+    border-radius: 50px;
+    background: var(--btn-orange);
+    color: white;
+    font-size: 23px;
+    font-weight: 900;
+    box-shadow: 0 5px 0 var(--btn-orange-shadow);
+    cursor: pointer;
+}
+
+.start-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 1px 0 var(--btn-orange-shadow);
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 22px 18px;
+    box-shadow: 0 4px 15px var(--card-shadow);
+    margin-bottom: 18px;
+}
+
+h1 {
+    text-align: center;
+    color: var(--accent);
+    font-size: 28px;
+    margin: 5px 0 22px;
+    text-wrap: balance;
+}
+
+h2 {
+    font-size: 21px;
+    color: var(--accent);
+    margin: 0 0 15px;
+    text-wrap: balance;
+}
+
+.info-box {
+    background: var(--info-bg);
+    border-radius: 14px;
+    padding: 14px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.pool-info {
+    text-align: center;
+    background: var(--pool-info-bg);
+    border-radius: 18px;
+    padding: 15px;
+    margin-bottom: 18px;
+}
+
+.pool-number {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.pool-date {
+    font-size: 27px;
+    font-weight: 900;
+    color: var(--accent-strong);
+}
+
+.deadline {
+    margin-top: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--deadline);
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 13px 12px;
+    border: 2px solid var(--border);
+    border-radius: 11px;
+    font-size: 17px;
+    line-height: 1.4;
+    background: var(--card-bg);
+    color: var(--text);
+}
+
+input, select {
+    min-height: 48px;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--border-focus);
+}
+
+/* 携帯ブラウザで日付欄だけ枠の見え方が変わるのを防ぐ（幅・高さとも他の欄に揃える） */
+input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    font-family: inherit;
+}
+
+.required-mark {
+    color: var(--error);
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.radio-area {
+    display: flex;
+    gap: 10px;
+}
+
+.radio-label {
+    flex: 1;
+    border: 2px solid var(--border);
+    border-radius: 13px;
+    padding: 14px 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.radio-label input {
+    width: auto;
+    margin-right: 5px;
+}
+
+.button {
+    width: 100%;
+    border: none;
+    border-radius: 13px;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.button-primary { background: var(--btn-primary); color: white; }
+.button-green { background: var(--btn-green); color: white; }
+.button-orange { background: var(--btn-orange); color: white; }
+.button-gray { background: var(--btn-gray-bg); color: var(--btn-gray-text); }
+.button-danger { background: var(--btn-danger); color: white; }
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.child-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.child-item {
+    display: flex;
+    gap: 8px;
+}
+
+.child-select-button {
+    flex: 1;
+    text-align: left;
+    background: var(--child-select-bg);
+    border: 2px solid var(--child-select-border);
+    border-radius: 13px;
+    padding: 14px;
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.child-select-button.button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--disabled-bg);
+    border-color: var(--disabled-border);
+}
+
+.delete-child-button {
+    width: 70px;
+    border: none;
+    border-radius: 13px;
+    background: var(--delete-bg);
+    color: var(--delete-text);
+    font-weight: bold;
+}
+
+.confirm-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.confirm-table th, .confirm-table td {
+    padding: 10px 6px;
+    border-bottom: 1px solid var(--table-border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.confirm-table th {
+    width: 38%;
+    color: var(--table-label);
+}
+
+.success {
+    text-align: center;
+    padding: 35px 15px;
+}
+
+.success-icon {
+    font-size: 70px;
+    margin-bottom: 15px;
+}
+
+.success h2 {
+    font-size: 28px;
+    text-align: center;
+}
+
+.error-message {
+    color: var(--error);
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.loading {
+    text-align: center;
+    padding: 30px;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.small-note {
+    font-size: 13px;
+    color: var(--small-note);
+    line-height: 1.7;
+}
+
+.temperature-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.temperature-row input {
+    flex: 1;
+}
+
+.temperature-unit {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.history-item {
+    background: var(--history-bg);
+    border: 1px solid var(--history-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.history-badge {
+    display: inline-block;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: 6px;
+}
+
+.history-badge-warn {
+    background: var(--badge-warn-bg);
+    color: var(--badge-warn-text);
+}
+
+.auth-status-sub {
+    color: var(--small-note);
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 0 0 10px;
+}
+
+.app-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+    text-align: center;
+    font-size: 10.5px;
+    letter-spacing: 0.02em;
+    color: var(--small-note);
+    opacity: 0.55;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.demo-note {
+    max-width: 620px;
+    margin: 0 auto 14px;
+    padding: 10px 14px;
+    background: var(--info-bg);
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--small-note);
+}
+
+@media (max-width: 420px) {
+    .screen { padding: 15px 11px 30px; }
+    .card { padding: 18px 14px; }
+    .main-title { font-size: 34px; }
+    .pool-icon { font-size: 60px; }
+    .radio-area { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+<div id="screen-start" class="screen active">
+
+    <div class="start-inner">
+
+        
+
+        <div class="pool-icon">🏊</div>
+
+        <div class="start-subtitle">楽しく元気にプールへ！</div>
+
+        <div class="main-title">
+            <button class="hidden-word" onclick="hiddenTap('school')">友沼小</button>
+            <button class="hidden-word" onclick="hiddenTap('pool')">プール</button>
+            <button class="hidden-word" onclick="hiddenTap('card')">カード</button>
+        </div>
+
+        <div class="start-message">
+            体温測定とプールカードのご提出に<br>ご協力をお願いいたします。
+        </div>
+
+        <button id="start-button" class="start-button" onclick="hiddenTap('start')">スタート</button>
+
+    </div>
+
+</div>
+
+
+<div id="screen-children" class="screen">
+
+    <div class="container">
+
+        <h1>🏊 プールカード</h1>
+
+        <div id="pool-info-children" class="pool-info">
+            <div class="loading">プール日程を読み込んでいます……</div>
+        </div>
+
+        <div class="card">
+            <h2>どなたのカードですか？</h2>
+
+            <div id="children-list" class="child-list"></div>
+
+            <button class="button button-green" onclick="showRegistration()">＋ 児童を追加する</button>
+            <button id="delete-mode-button" class="button button-danger" onclick="deleteChildMode()">🗑️ 児童を削除する</button>
+
+            <p class="small-note">
+                このブラウザに保存されている児童だけが表示されます。<br>
+                削除しても学校の児童名簿からは削除されません。
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>📋 送信履歴</h2>
+            <div id="history-list"></div>
+            <p class="small-note">このブラウザから送信した記録のみ表示されます。</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="screen-registration" class="screen">
+
+    <div class="container">
+
+        <h1>👦 児童を追加</h1>
+
+        <div class="card">
+
+            <div class="form-group">
+                <label for="child-name">氏名<span class="required-mark">必須</span></label>
+                <input id="child-name" type="text" autocomplete="off" placeholder="例：山田 太郎">
+            </div>
+
+            <div class="form-group">
+                <label for="child-grade">学年<span class="required-mark">必須</span></label>
+                <select id="child-grade">
+                    <option value="">選択してください</option>
+                    <option value="1">1年</option>
+                    <option value="2">2年</option>
+                    <option value="3">3年</option>
+                    <option value="4">4年</option>
+                    <option value="5">5年</option>
+                    <option value="6">6年</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="child-number">出席番号<span class="required-mark">必須</span></label>
+                <input id="child-number" type="number" min="1" max="50" inputmode="numeric">
+            </div>
+
+            <div class="form-group">
+                <label for="child-birthday">生年月日<span class="required-mark">必須</span></label>
+                <input id="child-birthday" type="date">
+            </div>
+
+            <div id="registration-error" class="error-message"></div>
+
+            <button class="button button-primary" onclick="authenticateChild()">認証申請して登録する</button>
+            <button class="button button-gray" onclick="showChildren()">戻る</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="screen-auth-success" class="screen">
+
+    <div class="container">
+
+        <div class="card success">
+            <div class="success-icon">☑️</div>
+            <p class="auth-status-sub">認証成功<br>名簿照合ができました</p>
+            <h2 id="auth-success-title"></h2>
+            <button class="button button-primary" onclick="showChildren()">児童一覧へ</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="screen-pool" class="screen">
+
+    <div class="container">
+
+        <h1>🏊 今日のプールカード</h1>
+
+        <div id="pool-info-input" class="pool-info"></div>
+
+        <div class="card">
+
+            <h2 id="selected-child-name"></h2>
+
+            <div class="form-group">
+                <label for="pool-temperature">🌡️ 今朝の体温<span class="required-mark">必須</span></label>
+                <div class="temperature-row">
+                    <input id="pool-temperature" type="number" inputmode="decimal" step="0.1" min="30" max="45" placeholder="例：36.5">
+                    <span class="temperature-unit">℃</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>🏊 プール参加<span class="required-mark">必須</span></label>
+                <div class="radio-area">
+                    <label class="radio-label">
+                        <input type="radio" name="pool-status" value="入水可能" onchange="toggleReason()">
+                        入水可能
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="pool-status" value="見学" onchange="toggleReason()">
+                        見学
+                    </label>
+                </div>
+            </div>
+
+            <div id="reason-area" style="display:none;">
+                <div class="form-group">
+                    <label for="pool-reason">見学理由<span class="required-mark">必須</span></label>
+                    <textarea id="pool-reason" placeholder="見学理由をご記入ください（例：発熱のため）"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="pool-remarks">📝 連絡事項</label>
+                <textarea id="pool-remarks" placeholder="学校に伝えておきたいことがあれば入力してください"></textarea>
+            </div>
+
+            <div id="pool-error" class="error-message"></div>
+
+            <button class="button button-primary" onclick="goConfirm()">確認する</button>
+            <button class="button button-gray" onclick="showChildren()">戻る</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="screen-confirm" class="screen">
+
+    <div class="container">
+
+        <h1>🔍 プールカード確認</h1>
+
+        <div class="card">
+
+            <table class="confirm-table">
+                <tr><th>プール</th><td id="confirm-pool-number"></td></tr>
+                <tr><th>プール日</th><td id="confirm-pool-date"></td></tr>
+                <tr><th>名前</th><td id="confirm-name"></td></tr>
+                <tr><th>今朝の体温</th><td id="confirm-temperature"></td></tr>
+                <tr><th>プール参加</th><td id="confirm-status"></td></tr>
+                <tr><th>見学理由</th><td id="confirm-reason"></td></tr>
+                <tr><th>連絡事項</th><td id="confirm-remarks"></td></tr>
+            </table>
+
+            <div id="confirm-error" class="error-message"></div>
+
+            <button class="button button-primary" onclick="submitPoolCard()">この内容で送信する</button>
+            <button class="button button-gray" onclick="showScreen('screen-pool')">修正する</button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="screen-complete" class="screen">
+
+    <div class="container">
+
+        <div class="card success">
+            <div class="success-icon" id="complete-icon">🎉</div>
+            <h2 id="complete-title">カードを提出しました。</h2>
+            <p id="complete-message"></p>
+            <button class="button button-primary" onclick="showChildren()">他の児童のカードを入力する</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="app-footer">Produced by ふぐたまさお</div>
+
+
+<script>
+
+/* =================================================
+   隠しスタート
+   触れる順番：友沼小 → スタート → プール → スタート → カード
+   「カード」を押した瞬間に次の画面へ進む。
+   この状態はブラウザに保存されず、毎回はじめからやり直せる。
+================================================= */
+
+const unlockSequence = ["school", "start", "pool", "start", "card"];
+let unlockStep = 0;
+
+function hiddenTap(type) {
+
+    if (type === unlockSequence[unlockStep]) {
+
+        unlockStep++;
+
+        if (unlockStep === unlockSequence.length) {
+            unlockStep = 0;
+            startApp();
+        }
+
+    } else {
+        unlockStep = (type === unlockSequence[0]) ? 1 : 0;
+    }
+}
+
+function startApp() {
+    const startScreen = document.getElementById("screen-start");
+    startScreen.classList.remove("active");
+    startScreen.style.display = "none";
+    loadPoolSchedule();
+}
+
+
+/* =================================================
+   データ
+================================================= */
+
+let children = [];
+let currentChild = null;
+let currentPoolData = null;
+let poolScheduleLoaded = false;
+let poolScheduleMessage = "";
+let deleteModeOn = false;
+
+
+/* =================================================
+   localStorage
+================================================= */
+
+const CHILD_STORAGE_KEY = "yutomi_pool_children";
+const SUBMIT_ID_KEY = "yutomi_pool_submit_ids";
+
+function loadChildren() {
+    try {
+        const saved = localStorage.getItem(CHILD_STORAGE_KEY);
+        children = saved ? JSON.parse(saved) : [];
+    } catch (error) {
+        children = [];
+    }
+}
+
+function saveChildren() {
+    try {
+        localStorage.setItem(CHILD_STORAGE_KEY, JSON.stringify(children));
+    } catch (error) { /* ignore */ }
+}
+
+function loadSubmitIds() {
+    try {
+        const saved = localStorage.getItem(SUBMIT_ID_KEY);
+        return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function addSubmitId(id) {
+    if (!id) return;
+    const ids = loadSubmitIds();
+    if (ids.indexOf(id) === -1) {
+        ids.push(id);
+        try {
+            localStorage.setItem(SUBMIT_ID_KEY, JSON.stringify(ids));
+        } catch (error) { /* ignore */ }
+    }
+}
+
+
+/* =================================================
+   画面切り替え
+================================================= */
+
+function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+        screen.style.display = "none";
+    });
+    const target = document.getElementById(id);
+    if (!target) return;
+    target.classList.add("active");
+    target.style.display = "block";
+}
+
+
+/* =================================================
+   GAS通信
+   （このHTMLは学校のサーバーに直接置くため、
+    GoogleのウェブアプリURLへfetchで通信する）
+================================================= */
+
+/*
+   デプロイしたGASウェブアプリのURLをここに入れる。
+   例：https://script.google.com/macros/s/xxxxxxxx/exec
+*/
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxX_BfoEk1OaCzN_pW1LRO1t06e3kTgPc9Q_kyuKHHVfxBVzotuiRIALtVlBSbcbx3D/exec";
+
+async function callGAS(action, data = {}) {
+
+    if (!GAS_URL) {
+        throw new Error("GAS_URLが設定されていません。");
+    }
+
+    /*
+       Content-Type は text/plain にする。
+       application/json にすると、GASはブラウザからの
+       プリフライト(CORS)リクエストに応答できず失敗するため。
+       本文はそのままJSON文字列を送る。
+    */
+    const response = await fetch(GAS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ action, ...data })
+    });
+
+    if (!response.ok) {
+        throw new Error("サーバーとの通信に失敗しました。");
+    }
+
+    return await response.json();
+}
+
+
+/* =================================================
+   受付時間の判定
+================================================= */
+
+function isWindowOpen() {
+    if (!currentPoolData) return false;
+    const now = new Date();
+    return now >= new Date(currentPoolData.startISO) && now < new Date(currentPoolData.deadlineISO);
+}
+
+function refreshWindowStatus() {
+    if (!currentPoolData) return;
+    const now = new Date();
+    const previous = currentPoolData.windowStatus;
+
+    if (now < new Date(currentPoolData.startISO)) {
+        currentPoolData.windowStatus = "notyet";
+    } else if (now >= new Date(currentPoolData.deadlineISO)) {
+        currentPoolData.windowStatus = "closed";
+    } else {
+        currentPoolData.windowStatus = "open";
+    }
+
+    if (previous !== currentPoolData.windowStatus) {
+        displayPoolInfo();
+        renderChildren();
+    }
+}
+
+setInterval(refreshWindowStatus, 15000);
+
+
+/* =================================================
+   プール日程を読み込む
+================================================= */
+
+async function loadPoolSchedule() {
+
+    showScreen("screen-children");
+
+    const info = document.getElementById("pool-info-children");
+    info.innerHTML = `<div class="loading">🏊 プール日程を読み込んでいます……</div>`;
+
+    try {
+        const result = await callGAS("getPoolSchedule");
+        if (!result.success) {
+            throw new Error(result.message || "プール日程を取得できませんでした。");
+        }
+
+        currentPoolData = result.data;
+        poolScheduleMessage = result.data ? "" : (result.message || "予定されているプールはありません。");
+        poolScheduleLoaded = true;
+
+        displayPoolInfo();
+        loadChildren();
+        renderChildren();
+        renderHistory();
+
+    } catch (error) {
+        info.innerHTML = `<div class="error-message">${escapeHtml(error.message)}</div>`;
+    }
+}
+
+
+/* =================================================
+   プール情報表示
+================================================= */
+
+function displayPoolInfo() {
+
+    const childrenBox = document.getElementById("pool-info-children");
+    const inputBox = document.getElementById("pool-info-input");
+
+    if (!currentPoolData) {
+        const html = `<div class="info-box">${escapeHtml(poolScheduleMessage || "予定されているプールはありません。")}</div>`;
+        childrenBox.innerHTML = html;
+        inputBox.innerHTML = html;
+        return;
+    }
+
+    let statusNote = "";
+
+    if (currentPoolData.windowStatus === "notyet") {
+        statusNote = `<div class="deadline">受付はまだ開始していません（プール当日の0:00から）。</div>`;
+    } else if (currentPoolData.windowStatus === "closed") {
+        statusNote = `<div class="deadline">本日の受付は終了しました。</div>`;
+    }
+
+    const html =
+        `<div class="pool-number">🏊 第${escapeHtml(String(currentPoolData.number))}回</div>
+         <div class="pool-date">${escapeHtml(String(currentPoolData.poolDate))}</div>
+         <div class="deadline">⏰ 提出締め切り：${escapeHtml(String(currentPoolData.deadline))}</div>
+         ${statusNote}`;
+
+    childrenBox.innerHTML = html;
+    inputBox.innerHTML = html;
+}
+
+
+/* =================================================
+   児童一覧
+================================================= */
+
+function showChildren() {
+    if (!poolScheduleLoaded) {
+        loadPoolSchedule();
+        return;
+    }
+    loadChildren();
+    renderChildren();
+    renderHistory();
+    showScreen("screen-children");
+}
+
+function renderChildren() {
+
+    const list = document.getElementById("children-list");
+
+    if (children.length === 0) {
+        list.innerHTML =
+            `<div class="info-box">
+                まだ児童が登録されていません。<br>
+                「児童を追加する」から登録してください。
+             </div>`;
+        return;
+    }
+
+    list.innerHTML = "";
+
+    const windowOpen = isWindowOpen();
+
+    children.forEach((child, index) => {
+
+        const item = document.createElement("div");
+        item.className = "child-item";
+
+        const selectButton = document.createElement("button");
+        selectButton.className = "child-select-button";
+        selectButton.textContent = `${child.name}さん　（${child.grade}年）`;
+
+        if (!windowOpen) {
+            selectButton.classList.add("button-disabled");
+            selectButton.onclick = function () {
+                if (!currentPoolData) {
+                    alert(poolScheduleMessage || "予定されているプールはありません。");
+                } else if (currentPoolData.windowStatus === "notyet") {
+                    alert("受付はまだ開始していません。プール当日の0:00からご利用いただけます。");
+                } else {
+                    alert(`本日の受付（締め切り：${currentPoolData.deadline}）は終了しました。`);
+                }
+            };
+        } else {
+            selectButton.onclick = function () {
+                selectChild(index);
+            };
+        }
+
+        item.appendChild(selectButton);
+
+        if (deleteModeOn) {
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-child-button";
+            deleteButton.textContent = "削除";
+            deleteButton.onclick = function () {
+                deleteChild(index);
+            };
+            item.appendChild(deleteButton);
+        }
+
+        list.appendChild(item);
+    });
+}
+
+
+/* =================================================
+   児童選択
+================================================= */
+
+function selectChild(index) {
+
+    if (!children[index]) return;
+
+    if (!isWindowOpen()) {
+        alert("現在は受付時間外です。");
+        return;
+    }
+
+    currentChild = children[index];
+    document.getElementById("selected-child-name").textContent = `${currentChild.name}さん`;
+
+    clearPoolForm();
+    showScreen("screen-pool");
+}
+
+
+/* =================================================
+   児童追加
+================================================= */
+
+function showRegistration() {
+    document.getElementById("child-name").value = "";
+    document.getElementById("child-grade").value = "";
+    document.getElementById("child-number").value = "";
+    document.getElementById("child-birthday").value = "";
+    document.getElementById("registration-error").textContent = "";
+    showScreen("screen-registration");
+}
+
+
+/* =================================================
+   児童認証 → 登録
+   （認証できたら確認画面を出さず、そのまま登録して
+    「◯◯さんを登録しました」を表示する。修正はさせない）
+================================================= */
+
+async function authenticateChild() {
+
+    const name = document.getElementById("child-name").value.trim();
+    const grade = document.getElementById("child-grade").value;
+    const number = document.getElementById("child-number").value.trim();
+    const birthday = document.getElementById("child-birthday").value;
+
+    const error = document.getElementById("registration-error");
+    error.textContent = "";
+
+    if (!name || !grade || !number || !birthday) {
+        error.textContent = "すべて入力してください。";
+        return;
+    }
+
+    try {
+        const result = await callGAS("authenticate", { child: { name, grade, number, birthday } });
+
+        if (!result.success) {
+            error.innerHTML =
+                "<strong>認証失敗</strong><br>お子様と名簿の照合ができませんでした。学校に連絡してください。";
+            return;
+        }
+
+        registerChildLocally({ name, grade, number, birthday });
+
+        document.getElementById("auth-success-title").textContent = `${name}さんをブラウザに登録しました。`;
+        showScreen("screen-auth-success");
+
+    } catch (error) {
+        document.getElementById("registration-error").textContent = error.message;
+    }
+}
+
+function registerChildLocally(child) {
+
+    const exists = children.some(c =>
+        c.name === child.name &&
+        String(c.grade) === String(child.grade) &&
+        String(c.number) === String(child.number) &&
+        c.birthday === child.birthday
+    );
+
+    if (!exists) {
+        children.push(child);
+        saveChildren();
+    }
+
+    currentChild = child;
+    renderChildren();
+}
+
+
+/* =================================================
+   児童削除
+================================================= */
+
+function deleteChildMode() {
+
+    if (!deleteModeOn && children.length === 0) {
+        alert("削除する児童が登録されていません。");
+        return;
+    }
+
+    deleteModeOn = !deleteModeOn;
+
+    const button = document.getElementById("delete-mode-button");
+    if (button) {
+        button.textContent = deleteModeOn ? "🗑️ 削除をやめる" : "🗑️ 児童を削除する";
+    }
+
+    renderChildren();
+}
+
+function deleteChild(index) {
+
+    if (!children[index]) return;
+
+    const child = children[index];
+    const answer = confirm(`${child.name}さんを、このブラウザから削除しますか？`);
+    if (!answer) return;
+
+    children.splice(index, 1);
+    saveChildren();
+
+    if (
+        currentChild &&
+        currentChild.name === child.name &&
+        String(currentChild.grade) === String(child.grade) &&
+        String(currentChild.number) === String(child.number)
+    ) {
+        currentChild = null;
+    }
+
+    renderChildren();
+}
+
+
+/* =================================================
+   プール入力を初期化
+================================================= */
+
+function clearPoolForm() {
+    document.getElementById("pool-temperature").value = "";
+    document.querySelectorAll('input[name="pool-status"]').forEach(radio => { radio.checked = false; });
+    document.getElementById("pool-reason").value = "";
+    document.getElementById("pool-remarks").value = "";
+    document.getElementById("reason-area").style.display = "none";
+    document.getElementById("pool-error").textContent = "";
+}
+
+
+/* =================================================
+   見学理由
+================================================= */
+
+function toggleReason() {
+    const status = document.querySelector('input[name="pool-status"]:checked');
+    const area = document.getElementById("reason-area");
+
+    if (status && status.value === "見学") {
+        area.style.display = "block";
+    } else {
+        area.style.display = "none";
+        document.getElementById("pool-reason").value = "";
+    }
+}
+
+
+/* =================================================
+   確認画面
+================================================= */
+
+function goConfirm() {
+
+    const error = document.getElementById("pool-error");
+    error.textContent = "";
+
+    if (!currentPoolData) {
+        error.textContent = poolScheduleMessage || "予定されているプールはありません。";
+        return;
+    }
+
+    if (!isWindowOpen()) {
+        error.textContent =
+            currentPoolData.windowStatus === "notyet"
+                ? "受付はまだ開始していません（プール当日の0:00から）。"
+                : `提出締め切り（${currentPoolData.deadline}）を過ぎています。`;
+        return;
+    }
+
+    if (!currentChild) {
+        error.textContent = "児童が選択されていません。";
+        return;
+    }
+
+    const temperature = document.getElementById("pool-temperature").value.trim();
+
+    if (!temperature) {
+        error.textContent = "今朝の体温を入力してください。";
+        return;
+    }
+
+    const tempNumber = Number(temperature);
+
+    if (isNaN(tempNumber) || tempNumber < 30 || tempNumber > 45) {
+        error.textContent = "体温を正しく入力してください。";
+        return;
+    }
+
+    const status = document.querySelector('input[name="pool-status"]:checked');
+
+    if (!status) {
+        error.textContent = "プール参加を選択してください。";
+        return;
+    }
+
+    let reason = "";
+
+    if (status.value === "見学") {
+
+        reason = document.getElementById("pool-reason").value.trim();
+
+        if (!reason) {
+            error.textContent = "見学理由をご記入ください。";
+            return;
+        }
+    }
+
+    const remarks = document.getElementById("pool-remarks").value.trim();
+
+    currentPoolData = { ...currentPoolData, temperature, status: status.value, reason, remarks };
+
+    document.getElementById("confirm-pool-number").textContent = `第${currentPoolData.number}回`;
+    document.getElementById("confirm-pool-date").textContent = currentPoolData.poolDate;
+    document.getElementById("confirm-name").textContent = `${currentChild.name}さん`;
+    document.getElementById("confirm-temperature").textContent = `${temperature} ℃`;
+    document.getElementById("confirm-status").textContent = status.value;
+
+    document.getElementById("confirm-reason").textContent = reason || "―";
+    document.getElementById("confirm-remarks").textContent = remarks || "―";
+    document.getElementById("confirm-error").textContent = "";
+
+    showScreen("screen-confirm");
+}
+
+
+/* =================================================
+   送信
+================================================= */
+
+async function submitPoolCard(isCorrection) {
+
+    isCorrection = !!isCorrection;
+
+    const error = document.getElementById("confirm-error");
+    error.textContent = "";
+
+    if (!currentChild || !currentPoolData) {
+        error.textContent = "情報が不足しています。";
+        return;
+    }
+
+    const submitButton = document.querySelector("#screen-confirm .button-primary");
+    submitButton.disabled = true;
+    submitButton.textContent = "送信しています……";
+
+    const submittedData = {
+        name: currentChild.name,
+        grade: currentChild.grade,
+        number: currentChild.number,
+        birthday: currentChild.birthday,
+        temperature: currentPoolData.temperature,
+        status: currentPoolData.status,
+        reason: currentPoolData.reason,
+        remarks: currentPoolData.remarks
+    };
+
+    try {
+
+        const result = await callGAS("submitPoolCard", { data: submittedData, isCorrection });
+
+        if (result.duplicate) {
+
+            submitButton.disabled = false;
+            submitButton.textContent = "この内容で送信する";
+
+            const proceed = confirm("すでに送信済みです。訂正送信しますか？");
+            if (proceed) {
+                await submitPoolCard(true);
+            }
+            return;
+        }
+
+        if (!result.success) {
+            throw new Error(result.message || "送信できませんでした。");
+        }
+
+        addSubmitId(result.submitId);
+
+        document.getElementById("complete-icon").textContent = result.outOfTime ? "⏰" : "🎉";
+        document.getElementById("complete-title").textContent = result.outOfTime ? "受付時間外です" : "カードを提出しました。";
+        document.getElementById("complete-message").innerHTML =
+            result.outOfTime
+                ? `${escapeHtml(currentChild.name)}さんの内容は記録されましたが、受付時間外のため学校に直接ご相談ください。<br><br><strong>第${escapeHtml(String(result.poolNumber))}回・${escapeHtml(String(result.poolDate))}</strong>`
+                : `${escapeHtml(currentChild.name)}さんのカードを受け付けました。<br><br><strong>第${escapeHtml(String(result.poolNumber))}回・${escapeHtml(String(result.poolDate))}</strong>`;
+
+        showScreen("screen-complete");
+        renderHistory();
+
+    } catch (err) {
+        error.textContent = err.message;
+    } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = "この内容で送信する";
+    }
+}
+
+
+/* =================================================
+   送信履歴
+================================================= */
+
+async function renderHistory() {
+
+    const container = document.getElementById("history-list");
+    if (!container) return;
+
+    const ids = loadSubmitIds();
+
+    if (ids.length === 0) {
+        container.innerHTML = `<p class="small-note">まだ送信履歴はありません。</p>`;
+        return;
+    }
+
+    container.innerHTML = `<div class="loading">送信履歴を確認しています……</div>`;
+
+    try {
+
+        const result = await callGAS("getHistory", { ids });
+
+        if (!result.success || !result.records || result.records.length === 0) {
+            container.innerHTML = `<p class="small-note">まだ送信履歴はありません。</p>`;
+            return;
+        }
+
+        /*
+           poolDate（「9月27日」等）は桁数が揃っていないため文字列比較すると
+           順序が崩れる。送信IDの先頭は常に8桁のyyyyMMddなので、
+           これで並べ替えれば新しい順に正しく並ぶ。
+        */
+        result.records.sort((a, b) => String(b.submitId).localeCompare(String(a.submitId)));
+
+        container.innerHTML = "";
+
+        result.records.forEach(record => {
+
+            const item = document.createElement("div");
+            item.className = "history-item";
+
+            const correctionBadge = record.isCorrection ? `<span class="history-badge">訂正</span>` : "";
+            const warnBadge = record.receptionStatus === "受付時間外" ? `<span class="history-badge history-badge-warn">受付時間外</span>` : "";
+            const reasonPart = record.reason ? `（${escapeHtml(String(record.reason))}）` : "";
+
+            item.innerHTML =
+                `<strong>${escapeHtml(String(record.poolDate))}（第${escapeHtml(String(record.poolNumber))}回）</strong>
+                 ${correctionBadge}${warnBadge}<br>
+                 ${escapeHtml(String(record.name))}さん（${escapeHtml(String(record.grade))}年${escapeHtml(String(record.number))}番）
+                 ${escapeHtml(String(record.temperature))}℃　${escapeHtml(String(record.status))}${reasonPart}`;
+
+            container.appendChild(item);
+        });
+
+    } catch (error) {
+        /*
+           実際の原因が分かるよう、固定文言ではなくエラー内容を表示する。
+           「Google Apps ScriptのWebアプリとして開く必要があります」等が出る場合は、
+           プレビュー画面ではなく、デプロイ済みのウェブアプリURLを開いているか確認してください。
+        */
+        container.innerHTML =
+            `<p class="error-message">送信履歴を取得できませんでした：${escapeHtml(error.message || String(error))}</p>`;
+    }
+}
+
+
+/* =================================================
+   HTMLエスケープ
+================================================= */
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+/* =================================================
+   起動
+================================================= */
+
+loadChildren();
+
+</script>
+</body>
+</html>
